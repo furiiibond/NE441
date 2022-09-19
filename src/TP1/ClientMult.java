@@ -12,6 +12,11 @@ public class ClientMult {
 
     public static void main(String[] args) throws Exception
     {
+        ClientMult clientMult = new ClientMult();
+        clientMult.execute();
+    }
+
+    private void execute() throws IOException {
         // Lancement du jeu de maternelle
         String messToSend = "JOUER";
         ClientMult clientMult = new ClientMult();
