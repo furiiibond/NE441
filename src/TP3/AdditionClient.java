@@ -38,7 +38,11 @@ public class AdditionClient {
                 } catch (Exception e) {
                     responce.append("0;");
                 }
-                this.client.send(responce.toString());
+                try {
+                    this.client.send(responce.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
