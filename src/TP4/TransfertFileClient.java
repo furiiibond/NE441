@@ -1,13 +1,12 @@
 package TP4;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 
 public class TransfertFileClient {
 
     public static void main(String[] args) {
-        new TransfertFileClient().receiveFile("test.txt","rcv.txt");
+        new TransfertFileClient().receiveFile("C:\\Users\\jeanc\\OneDrive\\ESISAR\\ESISAR_S3\\NE441\\TP\\TP4\\file1","C:\\Users\\jeanc\\OneDrive\\ESISAR\\ESISAR_S3\\NE441\\TP\\TP4\\file2");
     }
 
     public void receiveFile(String askForFile, String fileName) {
@@ -20,10 +19,14 @@ public class TransfertFileClient {
             askForFile += ";";
             s.getOutputStream().write(askForFile.getBytes());
             FileOutputStream out = new FileOutputStream(fileName);
-            byte buf[] = new byte[1024];
+            String fileLenString = receiveMessage(s.getInputStream(), ";");
+            long fileLen = Long.parseLong(fileLenString);
+            byte buf[] = new byte[100000];
             int n;
             while((n=inf.read(buf))!=-1){
                 out.write(buf,0,n);
+                // display the percentage of the file received
+                System.out.println("Percentage : " + (out.getChannel().size() * 100 / fileLen) + "%");
             }
             inf.close();
             out.close();
@@ -34,4 +37,19 @@ public class TransfertFileClient {
 
 
     }
+
+    public String receiveMessage(InputStream inputStream, String finalChar) throws IOException {
+
+        byte buf[] = new byte[1024];
+        int n;
+        String str = "";
+        while((n=inputStream.read(buf))!=-1){
+            str += new String(buf,0,n);
+            if (str.contains(";")) {
+                break;
+            }
+        }
+        return str.split(";")[0];
+    }
+
 }

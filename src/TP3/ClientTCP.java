@@ -1,8 +1,6 @@
 package TP3;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -67,6 +65,23 @@ public class ClientTCP
 			System.out.println("Aucune reponse recue");
 		}
 		return reponse;
+	}
+
+	/**
+	 * Le client attend la reponse du serveur
+	 *
+	 */
+	public String receive(String finalChar) throws IOException {
+
+		char[] buffer = new char[2048];
+		String message = "";
+		int charsRead = 0;
+		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		while ((charsRead = in.read(buffer)) != -1) {
+			message = new String(buffer).substring(0, charsRead);
+		}
+		System.out.println(message);
+		return message;
 	}
 
 	/**
