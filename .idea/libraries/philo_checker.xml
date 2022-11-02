@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="philo-checker">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/philo-checker.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -28,11 +28,16 @@ public class ServeurTCP
 
 	public void send() throws IOException
 	{
+		this.send("ok");
+	}
+
+	public void send(String message) throws IOException
+	{
 		// Emission d'un message en retour
-		byte[] bufE = new String("ok").getBytes();
+		byte[] bufE = message.getBytes();
 		OutputStream os = socketConnexion.getOutputStream();
 		os.write(bufE);
-		System.out.println("Message envoye = ok");
+		System.out.println("Message envoye = " + message);
 	}
 
 	// wait and receive a message
@@ -58,6 +63,19 @@ public class ServeurTCP
 		return reponse;
 	}
 
+	public String receive(String endChar) throws IOException {
+		byte buf[] = new byte[1024];
+		int n;
+		String str = "";
+		while((n=socketConnexion.getInputStream().read(buf))!=-1){
+			str += new String(buf,0,n);
+			if (str.contains(endChar)) {
+				break;
+			}
+		}
+		return str;
+	}
+
 	/**
 	 * close connection
 	 */
@@ -69,5 +87,12 @@ public class ServeurTCP
 		socketEcoute.close();
 		System.out.println("Arret du serveur .");
 	}
-		
+
+	public void closeSocket() {
+		try {
+			socketConnexion.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

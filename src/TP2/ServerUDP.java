@@ -65,6 +65,12 @@ public class ServerUDP {
         System.out.println("Message envoye = " + message);
     }
 
+    public void sendAll(String message) {
+        for (Client client : clients) {
+            send(message, clients.indexOf(client));
+        }
+    }
+
     // close the socket
     public void close() {
         socket.close();
